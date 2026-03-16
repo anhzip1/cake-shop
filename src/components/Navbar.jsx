@@ -1,5 +1,9 @@
 import { Link } from "react-router-dom";
+import { useContext } from "react";
+import { CartContext } from "../pages/CartContext";
 function Navbar() {
+  const { cart } = useContext(CartContext);
+  // const totalQty = cart.reduce((sum, item) => sum + item.quantity, 0);
   return (
     <>
       <div className="color">
@@ -81,7 +85,7 @@ function Navbar() {
                 <li className="nav-item me-3">
                   <Link className="nav-link text-white" to="/cart">
                     🛒 Giỏ hàng
-                    <span className="badge bg-danger ms-1">0</span>
+                    <span className="badge bg-danger ms-1">{cart.length}</span>
                   </Link>
                 </li>
 

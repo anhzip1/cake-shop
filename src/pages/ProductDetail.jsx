@@ -1,5 +1,7 @@
 import { useParams } from "react-router-dom";
 import { useState } from "react";
+import { useContext } from "react";
+import { CartContext } from "./CartContext";
 import ProductCatalog from "../data/ProductsCatalog";
 
 function ProductDetail() {
@@ -8,6 +10,8 @@ function ProductDetail() {
   const product = ProductCatalog.find((item) => item.slug === slug);
   const [size, setSize] = useState("19cm");
   const [quantity, setQuantity] = useState(1);
+
+  const { addToCart } = useContext(CartContext);
 
   if (!product) return <h2>Không tìm thấy sản phẩm</h2>;
 
@@ -24,9 +28,7 @@ function ProductDetail() {
           </div>
           <div className="col-md-6 product-info">
             <h2 className="fw-bold">{product.name}</h2>
-            <h4 className="product-price">
-              {product.price.toLocaleString("vi-VN")} đ
-            </h4>
+            <h4 className="price">{product.price.toLocaleString("vi-VN")} đ</h4>
             <div className="mt-4">
               <h5>Kích thước</h5>
               <button className="me-2 size" onClick={() => setSize("19cm")}>
@@ -52,7 +54,12 @@ function ProductDetail() {
               </div>
             </div>
             <div className="mt-4">
-              <button className="btn-cart me-3">Thêm vào giỏ hàng</button>
+              <button
+                className="btn-cart me-3"
+                onClick={() => addToCart({ ...product })}
+              >
+                Thêm vào giỏ hàng
+              </button>
               <button className="btn-cart">Mua ngay</button>
             </div>
           </div>
