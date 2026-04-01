@@ -118,3 +118,11 @@ body {
   font-size: 17px;
   text-decoration: none;
 }
+.card1 {
+  border-radius: 12px;
+}
+
+.card1:hover {
+  transform: translateY(-3px);
+  transition: 0.3s;
+}

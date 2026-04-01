@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { useContext } from "react";
 import { CartContext } from "../pages/CartContext";
 function Navbar() {
+  const user = JSON.parse(localStorage.getItem("user"));
   const { cart } = useContext(CartContext);
   // const totalQty = cart.reduce((sum, item) => sum + item.quantity, 0);
   return (
@@ -88,12 +89,54 @@ function Navbar() {
                     <span className="badge bg-danger ms-1">{cart.length}</span>
                   </Link>
                 </li>
+                {!user && (
+                  <li className="nav-item">
+                    <Link className="nav-link login text-white" to="/login">
+                      Đăng nhập
+                    </Link>
+                  </li>
+                )}
+                {user && user.role === "user" && (
+                  <>
+                    <li className="nav-item">
+                      <Link className="nav-link text-white" to="/orders">
+                        Đơn hàng
+                      </Link>
+                    </li>
 
-                <li className="nav-item">
-                  <Link className="nav-link login text-white" to="/login">
-                    Đăng Nhập
-                  </Link>
-                </li>
+                    <li className="nav-item">
+                      <button
+                        className="btn btn-sm btn-light ms-2"
+                        onClick={() => {
+                          localStorage.removeItem("user");
+                          window.location.reload();
+                        }}
+                      >
+                        Đăng xuất
+                      </button>
+                    </li>
+                  </>
+                )}
+                {user && user.role === "admin" && (
+                  <>
+                    <li className="nav-item">
+                      <Link className="nav-link text-white" to="/admin/orders">
+                        Quản lý đơn
+                      </Link>
+                    </li>
+                    <li className="nav-item">
+                      <button
+                        className="btn btn-sm btn-light ms-2"
+                        onClick={() => {
+                          localStorage.removeItem("user");
+                          window.location.reload();
+                        }}
+                      >
+                        Đăng xuất
+                      </button>
+                    </li>
+                  </>
+                )}
               </ul>
             </div>
           </div>

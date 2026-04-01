@@ -24,9 +24,23 @@ function CheckOut() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (items.length === 0) {
+      alert("Chưa có sản phẩm");
+      return;
+    }
+    const Order = {
+      id: Date.now(),
+      name: form.name,
+      phone: form.phone,
+      address: form.address,
+      items: items,
+      total: total,
+      status: "Đang chờ xử lý đơn",
+      date: new Date().toLocaleString(),
+    };
+    const OldOrders = JSON.parse(localStorage.getItem("orders")) || [];
+    localStorage.setItem("orders", JSON.stringify([...OldOrders, Order]));
     alert("Đặt hàng thành công");
-    console.log("Thông tin:", form);
-    console.log("Đơn hàng:", items);
   };
 
   return (
@@ -75,7 +89,9 @@ function CheckOut() {
               </div>
             ))}
             <hr />
-            <h5>Tổng: {total.toLocaleString("vi-VN")} đ</h5>
+            <h5 className="price fw-bold">
+              Tổng: {total.toLocaleString("vi-VN")} đ
+            </h5>
           </div>
         </div>
       </div>
